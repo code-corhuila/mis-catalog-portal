@@ -9,13 +9,18 @@ Governance and documentation live in [`mis-docs`](https://github.com/code-corhui
 
 Node 24+, `npm ci --ignore-scripts`, `npm test`. Angular 21.2.25 with zoneless
 signals and native ESM/JIT; the locked packages are served locally, not from a CDN.
-mis-front mounts `src/portal.js` using `mount(host, { request })`; the returned
+mis-front mounts `src/portal.js` with a restricted request context; the returned
 cleanup removes the application and invalidates pending responses. No token or
 login is owned by this portal. Requests use the injected authenticated gateway
-client, limited to medication reads by the shell. See Angular's official
+client, limited to medication reads and keyed ADMIN creation by the shell. See Angular's official
 [createComponent API](https://angular.dev/api/core/createComponent).
 Listing, pagination, page-local search and a snapshot detail view are implemented.
-Creation/maintenance, AOT production packaging and integrated QA remain pending.
+ADMIN creation accepts the six owner fields and retains an immutable pending
+body/key through navigation in the same login. Unknown replies require explicit
+replay; acknowledged records refresh page 1 without optimistic insertion. A 422
+allows correcting the draft with a fresh key. Logout/reload loses the local intent.
+Editing/deactivation, AOT production packaging and integrated QA remain pending.
+See [creation acceptance](docs/WEB-001-creation-acceptance.md).
 CI tests the model, not Angular rendering or the real backend. Browser acceptance
 is run separately through mis-front; this increment does not close WEB-001.
 Shadow DOM isolates CSS, not untrusted JavaScript; backend authorization remains authoritative.
