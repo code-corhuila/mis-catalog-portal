@@ -19,8 +19,15 @@ ADMIN creation accepts the six owner fields and retains an immutable pending
 body/key through navigation in the same login. Unknown replies require explicit
 replay; acknowledged records refresh page 1 without optimistic insertion. A 422
 allows correcting the draft with a fresh key. Logout/reload loses the local intent.
-Editing/deactivation, AOT production packaging and integrated QA remain pending.
+ADMIN editing/deactivation reads the owner ETag and sends If-Match. The unit of
+measure is immutable. Deactivation requires confirmation and cannot reactivate.
+An uncertain command retains its original body/version across navigation; 412
+requires explicit review, never an automatic overwrite with a newer version.
+Review loads the current owner state and explicitly discards the previous draft;
+it does not prove which actor caused a change. Logout/reload loses pending memory.
+AOT production packaging and integrated QA remain pending.
 See [creation acceptance](docs/WEB-001-creation-acceptance.md).
+See [maintenance acceptance](docs/WEB-001-maintenance-acceptance.md).
 CI tests the model, not Angular rendering or the real backend. Browser acceptance
 is run separately through mis-front; this increment does not close WEB-001.
 Shadow DOM isolates CSS, not untrusted JavaScript; backend authorization remains authoritative.
