@@ -32,7 +32,14 @@ CI tests the model, not Angular rendering or the real backend. Browser acceptanc
 is run separately through mis-front; this increment does not close WEB-001.
 Shadow DOM isolates CSS, not untrusted JavaScript; backend authorization remains authoritative.
 
-## Branching
+## Demo-inspired portal styling
+
+The independent styles.js aligns headings, primary/destructive commands, fields,
+status badges and contained tables with the shell's visual reference. Mobile forms
+use one column; wide tables scroll internally. No API, role, If-Match or pending-key
+semantics changed. See [visual acceptance](docs/WEB-001-visual-acceptance.md).
+
+## Branching Policy
 
 Three permanent branches. **None of them accepts a direct commit** — you enter through a child
 branch and leave through a Pull Request.
